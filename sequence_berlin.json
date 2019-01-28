@@ -1,0 +1,86 @@
+{
+	"sequenceStmt": {
+		"sequences": [
+			{
+				"summary": "Vorspann",
+				"timecodestart": "00:00:00",
+				"sceneStmt": {
+					"scenes": [
+						{
+							"summary": "Restaurierungshinweis",
+							"timecodestart": "00:00:00",
+							"reference_frame": "img/001.jpg",
+							"annotations": [
+								{
+									"type": "text",
+									"about": "content",
+									"text": ["Sequenzdauer: 01:36 Minuten. Vorspann"]
+								},
+								{
+									"type": "contains_shots",
+									"number": 3
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"summary": "Wasser, abstrakte Animationssequenz",
+				"timecodestart": "00:01:36",
+				"sceneStmt": {
+					"scenes": [
+						{
+							"summary": "Bewegung von geometrischen Figuren (Linien, Kreise, Rechtecke) zu Musik",
+							"timecodestart": "00:01:36",
+							"reference_frame": "img/003.jpg",
+							"annotations": [
+								{
+									"type": "text",
+									"about": "content",
+									"text": ["Sequenzdauer: 00:42 Minuten. Beginn des 1. Aktes. Animation in Form von Ruttmanns Kurzfilmexperimenten Opus I - IV"]
+								},
+								{
+									"type": "contains_shots",
+									"number": 4
+								}
+							]
+						}
+						
+					]
+				}
+			},
+			{
+				"summary": "Zugfahrt",
+				"timecodestart": "00:02:18",
+				"sceneStmt": {
+					"scenes": [
+						{
+							"summary": "Vorbeifahrt des Zuges",
+							"timecodestart": "00:02:18",
+							"reference_frame": "img/004.jpg",
+							"annotations": [
+								{
+									"type": "text",
+									"about": "content",
+									"text": ["Sequenzdauer: 02:56 Minuten. Unbewegte Kamera (Blick auf Zug) wie zu Ende der Sequenz."]
+								},
+								{
+									"type": "contains_shots",
+									"number": 4
+								},
+								{
+									"type": "text",
+									"about": "objects",
+									"text": "Zug"
+								}
+							]
+						}
+						
+					]
+				}
+			}
+		]
+	}
+}
+				
