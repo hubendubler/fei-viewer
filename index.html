@@ -4,14 +4,90 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset.css">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans|Roboto|Spectral|Spectral+SC" rel="stylesheet"> 
     <link rel="stylesheet" href="css/styles.css">
     <title>Test</title>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 </head>
 <body>
     <div id="app">
-        {{ message }}
-      </div>
+        <div class="wholepage" v-show="showVideoInput">
+            <div class="container">
+                <a href="#" v-on:click="toggleVideoInput()">Schließen</a>
+                <input type="file" id="videodrop" class="hidden" onchange="fileDropper.handleFiles(this, this.files)">
+                <label for="videodrop" class="droparea">
+                    Drop your video file here or click to select
+                </label>
+            </div>
+        </div>
+        
+        <div class="container" v-show="showInput">
+            <h1 class="center">FEI File Viewer</h1>
+            <p class="center">This application allows you to preview FEI files. Currently only film protocols are supported. For more information about FEI, please visit the official <a href="https://github.com/cemfi/fei/wiki">Wiki</a>.</p>
+            <input type="file" multiple id="mainfiledrop" class="hidden" onchange="fileDropper.handleFiles(this, this.files)">
+            <label for="mainfiledrop" class="droparea">
+                Drop your FEI file here or click to select
+            </label>
+        </div>
+        
+        <div class="container" v-if="fei">
+            <h1 class="center">FEI File Viewer</h1>
+            <a href="#" v-on:click="toggleVideoInput()">Video abrufen</a>
+            <div class="videocontainer">
+                <video v-if="video.showframe" controls>
+                    <source v-bind:src="video.url" type="video/mp4">
+                </video>
+            </div>
+            <div class="timeline">
+                <div class="shot" v-on:click="goto(shot)" v-for="shot in tableView" v-bind:style="`left: ${shot.start*100}%; width: ${shot.length * 100}%; background-color: rgba(0, 0, 0, ${Math.random()*0.4+0.2})`">
+                    <div v-if="getFileReference(shot)" v-bind:style="`background-image: url('${getFileReference(shot)}')`"></div>
+                </div>
+            </div>
+            <!--
+            <div class="tablecontainer">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Dateiname</th>
+                            <th>Check</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="a in requiredFiles">
+                            <td>{{a.source}}</td>
+                            <td>{{a.sourceurl}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            &nbsp;
+            -->
+            <div class="scrollcontainer">
+                <div class="tablecontainer">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="indexCol">#</th>
+                                <th class="timecodeCol">Timecode</th>
+                                <th class="summaryCol">Summary</th>
+                                <!-- <th v-for="col in getAnnotationColumns(fei)">{{col}}</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="shot in tableView" v-on:click="goto(shot)">
+                                <td class="indexCol">{{shot.idx}}</td>
+                                <td class="timecodeCol">{{shot.timecodestart}}</td>
+                                <td class="summaryCol">{{shot.summary}}</td>
+                                <!-- <td></td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/fileDropper.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

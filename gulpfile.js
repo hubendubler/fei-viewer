@@ -8,6 +8,7 @@ gulp.task('sass', function () {
     gulp.src('scss/styles.scss')
         .pipe(sass({includePaths: ['scss']}))
         .pipe(gulp.dest('css'));
+    browserSync.reload();
 });
 
 gulp.task('browser-sync', function() {  
