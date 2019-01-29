@@ -23,6 +23,7 @@ var app = new Vue({
         showVideoInput: false,
         fei: false,
         message: 'Hello Vue!',
+        title: 'FEI File Viewer',
         filterText: "",
         filereferences: {},
         video: {
@@ -65,6 +66,9 @@ var app = new Vue({
             }
             shots[shots.length - 1].end = lastEnd + 1;
             shots[shots.length - 1].length = shots[shots.length - 1].end - shots[shots.length - 1].start;
+            for ( let shot of shots ) {
+                shot.style = `left: ${shot.start*100}%; width: ${shot.length * 100}%; background-color: rgba(0, 0, 0, ${Math.random()*0.4+0.2})`;
+            }
             return shots;
         },
         movielength: function() {
@@ -106,12 +110,13 @@ var app = new Vue({
         importFEI: function(fei) {
             this.showInput = false;
             this.fei = fei;
+            this.title = get(this.fei, "fhead.titlestmt.title") || "FEI File Viewer";
         },
         transformFEI: function() {
             const filelist = this.requiredFiles,
                   localfiles = this.filereferences;
-            for ( reference of filelist ) {
-                for ( lf in localfiles ) {
+            for ( let reference of filelist ) {
+                for ( let lf in localfiles ) {
                     if ( reference.source.endsWith(lf) ) {
                         reference.sourceurl = localfiles[lf];
                     }
@@ -250,12 +255,14 @@ function onPlayerReady(event) {
     event.target.playVideo();
 }
 
+
 var done = false;
 function onPlayerStateChange(event) {
-    if (event.data == YT.PlayerState.PLAYING && !done) {
-    setTimeout(stopVideo, 6000);
+    // if (event.data == YT.PlayerState.PLAYING && !done) {
+    // setTimeout(stopVideo, 6000);
+    // done = true;
+    // }
     done = true;
-    }
 }
 function stopVideo() {
     player.stopVideo();
@@ -268,6 +275,7 @@ function playbackloop() {
             if ( ytready && player.getPlayerState() === YT.PlayerState.PLAYING ) {
                 app.playback.playing = true;
                 app.playback.currenttime = player.getCurrentTime();
+                app.playback.currentp = app.playback.currenttime / app.movielength;
             }
             else {
                 app.playback.playing = false;
@@ -278,6 +286,7 @@ function playbackloop() {
             if ( vid && !vid.paused ) {
                 app.playback.playing = true;
                 app.playback.currenttime = vid.currentTime;
+                app.playback.currentp = app.playback.currenttime / app.movielength;
             }
             else {
                 app.playback.playing = false;
