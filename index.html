@@ -24,7 +24,7 @@
         </div>
         
         <div class="container" v-show="showInput">
-            <h1 class="center">FEI File Viewer</h1>
+            <h1 class="center">{{title}}</h1>
             <p class="center">This application allows you to preview FEI files. Currently only film protocols are supported. For more information about FEI, please visit the official <a href="https://github.com/cemfi/fei/wiki">Wiki</a>.</p>
             <input type="file" multiple id="mainfiledrop" class="hidden" onchange="fileDropper.handleFiles(this, this.files)">
             <label for="mainfiledrop" class="droparea">
@@ -33,7 +33,7 @@
         </div>
         
         <div class="container" v-if="fei">
-            <h1 class="center">FEI File Viewer</h1>
+            <h1 class="center">{{title}}</h1>
             <a href="#" v-on:click="toggleVideoInput()">Video abrufen</a>
             <div class="videocontainer" v-show="!video.isYT">
                 <video v-if="video.showframe" controls>
@@ -44,8 +44,8 @@
                 <div id="player"></div>
             </div>
             <div class="timeline">
-                <div class="indicator" style="left: 40%"></div>
-                <div class="shot" v-on:click="goto(shot)" v-for="shot in tableView" :class="{ active: shot.active }" v-bind:style="`left: ${shot.start*100}%; width: ${shot.length * 100}%; background-color: rgba(0, 0, 0, ${Math.random()*0.4+0.2})`">
+                <div class="indicator" v-bind:style="`left: ${playback.currentp*100}%`"></div>
+                <div class="shot" v-on:click="goto(shot)" v-for="shot in tableView" :class="{ active: shot.active }" v-bind:style="shot.style">
                     <div v-if="getFileReference(shot)" v-bind:style="`background-image: url('${getFileReference(shot)}')`"></div>
                 </div>
             </div>
