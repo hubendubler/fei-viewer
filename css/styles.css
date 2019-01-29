@@ -1,0 +1,207 @@
+/*
+    font-family: 'Roboto', sans-serif;
+    font-family: 'Spectral', serif;
+    font-family: 'Spectral SC', serif;
+    font-family: 'Fira Sans', sans-serif;
+*/
+* {
+  box-sizing: border-box; }
+
+body {
+  font-size: 13px;
+  font-family: 'Roboto', serif;
+  padding-top: 50px;
+  line-height: 1.5;
+  background-color: #e5e7ea; }
+
+h1 {
+  font-size: 200%;
+  font-weight: bold;
+  font-family: 'Spectral', serif;
+  margin-bottom: 25px; }
+
+a {
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 1px solid #000; }
+  a:hover {
+    color: rgba(0, 0, 0, 0.4);
+    border-color: rgba(0, 0, 0, 0.4); }
+
+.droparea {
+  display: block;
+  text-align: center;
+  font-weight: bold;
+  padding: 50px;
+  background-color: rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.5);
+  font-family: 'Spectral', serif;
+  margin: 25px;
+  border: 5px solid rgba(0, 0, 0, 0.05);
+  border-radius: 5px;
+  cursor: pointer; }
+  .droparea.dragging {
+    color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.08);
+    border: 5px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.02) inset; }
+
+.hidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px); }
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center; }
+
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+  max-width: 1000px; }
+
+.wholepage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6); }
+  .wholepage .container {
+    padding: 20px;
+    background-color: #e5e7ea;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: 99999;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4); }
+
+.videocontainer {
+  width: 100%;
+  padding-top: 20px;
+  text-align: center; }
+  .videocontainer video {
+    width: 66.7%;
+    height: auto;
+    margin: 0 auto; }
+
+.scrollcontainer {
+  width: 100%;
+  height: 300px;
+  overflow-y: scroll;
+  margin-bottom: 20px; }
+
+/*
+tbody {
+    display: block;
+    position: relative;
+    width: 100%;
+    max-height: 400px;
+    overflow-y: scroll;
+    background-color: rgba(50, 50, 50, .1);
+    box-shadow: 0 1px 2px 0 rgba(50, 50, 50, .4);
+
+    tr {
+        display: table;
+        width:100%;
+    }
+}
+*/
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  box-shadow: 0 1px 2px 0 rgba(50, 50, 50, 0.4);
+  background-color: #fff;
+  text-align: left; }
+  table td, table th {
+    border: 1px solid #ccc;
+    padding: 5px; }
+  table th {
+    font-weight: 700;
+    text-align: left;
+    background-color: #f6f6f9; }
+  table tbody td {
+    padding: 0 5px; }
+  table tbody tr:last-child td, table tbody tr:last-child th {
+    border-bottom: none; }
+  table tbody tr:nth-child(even) {
+    background-color: #f6f6f9; }
+  table tbody tr {
+    cursor: pointer; }
+    table tbody tr:hover td {
+      background-color: rgba(50, 50, 50, 0.1); }
+    table tbody tr:active td {
+      background-color: rgba(50, 50, 50, 0.15); }
+  table td:first-child, table th:first-child {
+    border-left: none; }
+  table td:last-child, table th:last-child {
+    border-right: none; }
+  table tr:first-child td, table tr:first-child th {
+    border-top: none; }
+  table tr.active {
+    background-color: #91c7ff6b !important; }
+  table .activeCol td, table .activeCol th {
+    background-color: #91c7ff6b; }
+  table .indexCol {
+    width: 45px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold; }
+  table .timecodeCol {
+    width: 80px;
+    text-align: center; }
+  table .summaryCol {
+    width: 100%; }
+
+/*
+table tbody, table thead {
+    display: block;
+}
+
+table tbody {
+    overflow: auto;
+    height: 400px;
+}*/
+.timeline {
+  background-color: #fff;
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 50px;
+  margin: 25px auto;
+  overflow: hidden;
+  box-shadow: 0 1px 2px 0 rgba(50, 50, 50, 0.4); }
+  .timeline .indicator {
+    position: absolute;
+    z-index: 999;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    left: 0;
+    transform: translateX(-50%);
+    background-color: red; }
+  .timeline .shot {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    background-color: red;
+    cursor: pointer; }
+    .timeline .shot div {
+      position: absolute;
+      top: -5px;
+      bottom: -5px;
+      left: -5px;
+      right: -5px;
+      background-size: cover; }
+    .timeline .shot:hover {
+      filter: brightness(150%); }
+    .timeline .shot:active {
+      filter: invert(100%); }
