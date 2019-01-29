@@ -27,8 +27,11 @@ var app = new Vue({
         filereferences: {},
         video: {
             showframe: false,
-            url: false
-        }
+            url: false,
+            yturl: "",
+            isYT: false
+        },
+        playback: {}
     },
     computed: {
         tableView: function() {
@@ -123,7 +126,66 @@ var app = new Vue({
         },
         goto: function(shot) {
             let sec = this.tc2s(shot.timecodestart);
-            document.querySelector('video').currentTime = sec;
+            const vid = document.querySelector('video');
+            if ( vid ) {
+                document.querySelector('video').currentTime = sec;
+            }
+            if ( player && "seekTo" in player ) {
+                player.seekTo(sec, true);
+            }
+            this.makeactive(shot.idx);
+        },
+        makeactive: function(idx) {
+            let shots = this.shots;
+            for ( let shot of shots ) {
+                shot.active = false;
+            }
+            if ( idx in shots ) {
+                shots[idx].active = true;
+            }
+            const tr = document.getElementById('shot' + idx);
+            if ( tr ) {
+                tr.scrollIntoView({behavior: 'smooth'});
+            }
+            app.$forceUpdate();
+        },
+        changeyt: function() {
+            //TODO: Match YT-URL
+            const yturl = this.video.yturl;
+            if( true && ytready ) {
+
+                player = new YT.Player('player', {
+                    height: '360',
+                    width: '640',
+                    videoId: yturl,
+                    events: {
+                        'onReady': onPlayerReady,
+                        'onStateChange': onPlayerStateChange
+                    }
+                });
+                
+                this.video.isYT = true;
+                
+            }
+        },
+        getFirstShot: function(sec) {
+            const shots = this.shots;
+            for ( let shot of shots ) {
+                if ( sec < (shot.start * this.movielength) ) {
+                    return shot;
+                }
+            }
+        },
+        playbackloop: function() {
+            try {
+                if ( this.playback.playing ) {
+                    let shot = this.getFirstShot(this.playback.currenttime);
+                    this.makeactive(shot.idx);
+                }
+            } catch (error) {
+                
+            }
+            setTimeout(this.playbackloop, 100);
         }
     }
 });
@@ -131,19 +193,13 @@ var app = new Vue({
 
 
 
-/*
-app.showInput = false;
-fetch('dd/father_and_daughter.json').then(resp => resp.json()).then(f => {
-    app.fei = f;
-});
-*/
-
 function loadFEIFromFile(feifile) {
     const feiurl = URL.createObjectURL(feifile);
     fetch(feiurl).then(resp => resp.json()).then(fei => {
         URL.revokeObjectURL(feiurl);
         app.importFEI(fei);
         app.transformFEI();
+        app.playbackloop();
     });
 }
 
@@ -175,3 +231,61 @@ fileDropper.dropped((files, id) => {
         }
     }
 });
+
+
+
+
+
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+var player, ytready = false;
+function onYouTubeIframeAPIReady() {
+    ytready = true;
+}
+
+function onPlayerReady(event) {
+    event.target.playVideo();
+}
+
+var done = false;
+function onPlayerStateChange(event) {
+    if (event.data == YT.PlayerState.PLAYING && !done) {
+    setTimeout(stopVideo, 6000);
+    done = true;
+    }
+}
+function stopVideo() {
+    player.stopVideo();
+}
+
+
+function playbackloop() {
+    try {
+        if ( app.video.isYT ) {
+            if ( ytready && player.getPlayerState() === YT.PlayerState.PLAYING ) {
+                app.playback.playing = true;
+                app.playback.currenttime = player.getCurrentTime();
+            }
+            else {
+                app.playback.playing = false;
+            }
+        }
+        else {
+            const vid = document.querySelector('video');
+            if ( vid && !vid.paused ) {
+                app.playback.playing = true;
+                app.playback.currenttime = vid.currentTime;
+            }
+            else {
+                app.playback.playing = false;
+            }
+        }     
+    } catch (error) {
+        
+    }
+    setTimeout(playbackloop, 100);
+}
+playbackloop();

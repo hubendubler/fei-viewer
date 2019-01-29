@@ -7,10 +7,10 @@ install:
   - npm install
   - npm install -g gulp
 script:
-  - mkdir css
   - gulp sass
 deploy:
-  provider: pages,
+  provider: pages
+  local_dir: src
   skip-cleanup: true
   github-token: $GITHUB_TOKEN
   keep-history: true

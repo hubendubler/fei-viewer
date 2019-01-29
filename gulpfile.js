@@ -5,23 +5,23 @@ var sass = require('gulp-sass');
 var browserSync = require('browser-sync');
 
 gulp.task('sass', function () {  
-    gulp.src('scss/styles.scss')
+    gulp.src('src/scss/styles.scss')
         .pipe(sass({includePaths: ['scss']}))
-        .pipe(gulp.dest('css'));
+        .pipe(gulp.dest('src/css'));
     browserSync.reload();
 });
 
 gulp.task('browser-sync', function() {  
-    browserSync.init(["css/*.css", "js/*.js"], {
+    browserSync.init(["src/css/*.css", "src/js/*.js"], {
         server: {
-            baseDir: "./"
+            baseDir: "./src"
         }
     });
 
     gulp.watch("**/*.html").on('change', browserSync.reload);
-    gulp.watch("**/*.js").on('change', browserSync.reload);
+    //gulp.watch("**/*.js").on('change', browserSync.reload);
 });
 
 gulp.task('default', ['sass', 'browser-sync'], function () {  
-    gulp.watch("scss/*.scss", ['sass']);
+    gulp.watch("src/scss/*.scss", ['sass']);
 });

@@ -8,6 +8,17 @@
     overflow: hidden;
     box-shadow: 0 1px 2px 0 rgba(50, 50, 50, .4);
 
+    .indicator {
+        position: absolute;
+        z-index: 999;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        left:0;
+        transform: translateX(-50%);
+        background-color: red;
+    }
+
     .shot {
         position: absolute;
         top: 0;
