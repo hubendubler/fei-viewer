@@ -10,7 +10,7 @@ script:
   - gulp sass
 deploy:
   provider: pages
-  local_dir: src
+  local-dir: src
   skip-cleanup: true
   github-token: $GITHUB_TOKEN
   keep-history: true
