@@ -34,7 +34,8 @@
         
         <div class="container" v-if="fei">
             <h1 class="center">{{title}}</h1>
-            <a href="#" v-on:click="toggleVideoInput()">Video abrufen</a>
+            <a href="#" v-on:click="toggleVideoInput()">Video abrufen</a>&nbsp;
+            <label for="filterText">Filter: </label><input type="text" name="filterText" v-model="filterText" id="">
             <div class="videocontainer" v-show="!video.isYT">
                 <video v-if="video.showframe" controls>
                     <source v-bind:src="video.url" type="video/mp4">
